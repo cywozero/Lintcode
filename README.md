@@ -1,2 +1,2 @@
-# Lintcode
-#最近没事使用python把lintcode全部做一遍
+# Leetcode
+#最近没事使用python把leetcode全部做一遍
