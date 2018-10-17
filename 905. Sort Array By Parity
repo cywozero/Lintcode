@@ -1,0 +1,20 @@
+'''
+Given an array A of non-negative integers, return an array consisting of all the even elements of A, followed by all the odd elements of A.
+
+You may return any answer array that satisfies this condition.
+'''
+def sortArrayByParity(A):
+    """
+    :type A: List[int]
+    :rtype: List[int]
+    """
+    B =[]
+    C =[]
+    for i in A:
+        if i%2==0:
+            C.append(i)
+        else:
+            B.append(i)
+    return (C+B)
+
+S=sortArrayByParity([3,1,2,4])
