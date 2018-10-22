@@ -1,0 +1,58 @@
+
+'''
+Solution 1: Brute Force 时间超出
+思路：
+1.order matters, unlike 花花酱 LeetCode 898. Bitwise ORs of Subarrays we can not sort the numbers in this problem.
+e.g. sumSubarrayMins([3, 1, 2, 4]) !=sumSubarrayMins([1, 2, 3, 4]) since the first one will not have a subarray of [3,4].
+2.For A[i], assuming there are L numbers that are greater than A[i] in range A[0] ~ A[i – 1], and there are R numbers that are greater or equal than A[i] in the range of A[i+1] ~ A[n – 1]. Thus A[i] will be the min of (L + 1) * (R + 1) subsequences.
+e.g. A = [3,1,2,4], A[1] = Solution 1: Brute Force
+Time complexity: O(n^2)
+
+Space complexity: O(1)
+'''
+def sumSubarrayMins(A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        KMod = 10**9+7
+        n = len(A)
+        ans =0
+        for i in range(n):
+            left = 1
+            right = 1
+            while i-left>=0 and A[i]<A[i-left]:
+                left +=1
+            while i+right<n and A[i]<=A[i+right]:
+                right +=1
+            ans +=A[i]*left*right
+        return ans%KMod
+t=sumSubarrayMins([3,1,2,4])
+
+
+'''
+Solution 2 
+Time complexity: O(n)
+Space complexity: O(n)
+We can use a monotonic stack to compute left[i] and right[i]
+'''
+class Solution:
+    def sumSubarrayMins(self, A):
+        """
+        :type A: List[int]
+        :rtype: int
+        """
+        kMod = 10 ** 9 + 7
+        n = len(A)
+        left, right = [1] * n, [1] * n
+        def fillLength(counts, start, end, step):      
+            s = []
+            for i in range(start, end, step):        
+                num = A[i] if step > 0 else A[i] - 1        
+                while s and s[-1][0] > num:
+                     counts[i] += s.pop()[1]
+                s.append((A[i], counts[i]))
+        fillLength(left, 0, n, 1)
+        fillLength(right, n - 1, -1, -1)
+        ans = sum(a * l * r for a, l, r in zip(A, left, right)) % kMod
+        return ans
