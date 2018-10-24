@@ -1,0 +1,10 @@
+'''
+返回的是每个人应该交换的糖果
+
+'''
+class Solution:
+    def fairCandySwap(self, A, B):
+        totalA, totalB, setB = sum(A), sum(B), set(B)
+        for v in A:
+            if (totalB - totalA)//2 + v in setB:
+                return [v, (totalB - totalA)//2 + v]
