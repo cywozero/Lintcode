@@ -1,0 +1,22 @@
+###
+Given a matrix A, return the transpose of A.
+
+The transpose of a matrix is the matrix flipped over it's main diagonal, switching the row and column indices of the matrix.
+###
+class Solution:
+    def transpose(self,A):
+        """
+        :type A: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        m = len(A)
+        n=len(A[0])
+        #res= [[0]*len(A[0])]*len(A) 不使用该形式，以防浅拷贝，因为*，改变任何一个就改变上面的
+        res = [[0] * m for _ in range(n)]
+        print(res)
+        for i in range(m):
+            for j in range(n):
+                res[j][i] = A[i][j]
+                #print(res[j][i])
+
+        return res
