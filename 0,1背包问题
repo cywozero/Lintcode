@@ -1,0 +1,30 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Mon Dec 10 15:24:24 2018
+
+@author: cc
+"""
+import numpy as np
+vlist = [0,100,60,120]
+wlist = [0,10,20,30]
+totalWeight = 50
+totalLength = 3
+resArr = np.zeros((totalLength+1,totalWeight+1),dtype=np.int32)
+for i in range(1,totalLength+1):
+    for j in range(1,totalWeight+1):
+        if wlist[i] <= j:
+           resArr[i,j] = max(resArr[i-1,j-wlist[i]]+vlist[i],resArr[i-1,j])
+           print(i,j)
+        else:
+           resArr[i,j] = resArr[i-1,j]
+print(resArr[-1,-1])
+
+'''
+以上方法的时间和空间复杂度均为 O(N*W)，其中时间复杂度基本已经不能再优 化了，但空间复杂度却可以优化到 O(W)。
+先考虑上面讲的基本思路如何实现，肯定是有一个主循环 i=1..N，每次算出来 二维数组 f[i][0..W]的所有值。那么，如果只用一个数组 f[0..W]，能不能保证 第 i 次循环结束后 f[w]中表示的就是我们定义的状态 f[i][w]呢?f[i][w]是由 f[i-1][w]和 f[i-1][w-c[i]]两个子问题递推而来，能否保证在推 f[i][w]时(也 即在第 i 次主循环中推 f[w]时)能够得到 f[i-1][w]和 f[i-1][w-w[i]]的值呢? 事实上，这要求在每次主循环中我们以 v=V..0 的顺序推 f[w]，这样才能保证推 f[v]时 f[v-w[i]]保存的是状态 f[i-1][w-w[i]]的值。改进后的代码如下
+'''
+resArr2 = np.zeros((totalWeight)+1,dtype=np.int32)
+for i in range(1,totalLength+1):
+   for j in range(totalWeight,0,-1):#倒序
+       if wlist[i] <= j:
+          resArr2[j] = max(resArr2[j],resArr2[j-wlist[i]]+vlist[i])
