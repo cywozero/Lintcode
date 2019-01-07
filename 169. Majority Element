@@ -1,0 +1,20 @@
+#第一种，利用python的counter函数
+class Solution:
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        import collections
+        nums= collections.Counter(nums)
+        return nums.most_common(1)[0][0]
+        
+#第二种，排序，在中间位置的一定是多的
+class Solution:
+    def majorityElement(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: int
+        """
+        nums.sort()
+        return nums[int((len(nums)-1)/2)]
